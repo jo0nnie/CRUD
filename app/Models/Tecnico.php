@@ -12,4 +12,8 @@ class Tecnico extends Model
         'email',
         // Otros atributos según sea necesario
     ];
+    public function ordenes()
+{
+    return $this->hasMany(Orden::class);
+}
 }

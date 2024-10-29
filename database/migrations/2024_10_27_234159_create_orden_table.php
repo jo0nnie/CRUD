@@ -12,12 +12,11 @@ class CreateOrdenTable extends Migration
     {
         Schema::create('orden', function (Blueprint $table) {
             $table->id();
-            $table->string('numero_orden')->unique();
+            $table->string('numero_orden')->default('0');
             $table->string('direccion');
             $table->string('tarea');
             $table->string('cliente');
             $table->date('fecha');
-            $table->foreignId('tecnico_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

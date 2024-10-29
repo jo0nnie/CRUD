@@ -25,4 +25,9 @@ class Orden extends Model
     {
         return $this->belongsTo(Tecnico::class);
     }
-}
+    
+    public function vehiculo()
+    {
+        return $this->belongsTo(Vehiculo::class);
+    }
+    }

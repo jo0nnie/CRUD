@@ -28,6 +28,10 @@ class Vehiculo extends Model
      * @var array<int, string>
      */
     protected $fillable = ['description', 'price', 'stock'];
-
+    public function ordenes()
+    {
+        return $this->hasMany(Orden::class);
+    }
+    
 
 }

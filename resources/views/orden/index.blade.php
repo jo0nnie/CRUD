@@ -1,4 +1,3 @@
-<!-- resources/views/orden/index.blade.php -->
 @extends('layouts.app')
 
 @section('template_title')
@@ -38,28 +37,42 @@
                                         <th>Descripción</th>
                                         <th>Fecha de Creación</th>
                                         <th>Estado</th>
+                                        <th>Técnico</th>
+                                        <th>Vehículo</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($ordenes as $item) <!-- Cambié a $ordenes para coincidir con el controlador -->
+                                @forelse ($ordenes as $item)
                                     <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $item->tarea }}</td>
-                                            <td>{{ $item->fecha }}</td>
-                                            <td>{{ $item->estado ?? 'Sin estado' }}</td>
-                                            <td>
-                                                <form action="{{ route('orden.destroy', $item->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary" href="{{ route('orden.show', $item->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Mostrar detalles') }}</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('orden.edit', $item->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Está seguro que quiere eliminar la orden?');"><i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>                            </table>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->tarea }}</td>
+                                        <td>{{ $item->fecha }}</td>
+                                        <td>{{ $item->estado ?? 'Sin estado' }}</td>
+                                        <td>{{ $item->tecnico->nombre ?? 'No asignado' }}</td> <!-- Mostrar nombre del técnico o "No asignado" -->
+                                        <td>{{ $item->vehiculo->modelo ?? 'No asignado' }}</td> <!-- Mostrar modelo del vehículo o "No asignado" -->
+                                        <td>
+                                            <form action="{{ route('orden.destroy', $item->id) }}" method="POST">
+                                                <a class="btn btn-sm btn-primary" href="{{ route('orden.show', $item->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Mostrar detalles') }}</a>
+                                                <a class="btn btn-sm btn-success" href="{{ route('orden.edit', $item->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Está seguro que quiere eliminar la orden?');"><i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="7" class="text-center">No hay órdenes disponibles.</td>
+                                    </tr>
+                                @endforelse
+                                </tbody>
+                            </table>
+
+                            <!-- Mostrar enlaces de paginación -->
+                            <div class="d-flex justify-content-center">
+                                {{ $ordenes->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -67,4 +80,3 @@
         </div>
     </div>
 @endsection
-

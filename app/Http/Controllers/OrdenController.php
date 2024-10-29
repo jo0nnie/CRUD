@@ -10,9 +10,8 @@ class OrdenController extends Controller
 {
     public function index()
     {
-        $ordenes = Orden::paginate(10);
-        dd($ordenes); // Línea de depuración
-        return view('orden.index', compact('ordenes'));
+        $ordenes = Orden::paginate(10); // Ajusta el modelo y la paginación según sea necesario
+        return view('orden.index', compact('ordenes')); // Asegúrate de que el nombre de la vista sea correcto
     }
     
 
@@ -25,20 +24,29 @@ class OrdenController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'numero_orden' => 'required|unique:orden', // Cambié a 'orden'
-            'direccion' => 'required',
+        // Validar los datos del formulario
+        $request->validate([
             'tarea' => 'required',
-            'cliente' => 'required',
-            'fecha' => 'required|date',
-            'tecnico_id' => 'required|exists:tecnicos,id'
+            'numero_orden' => 'required', // Asegúrate de validar este campo
+            'tecnico_id' => 'required|exists:tecnicos,id', // Asegúrate de que sea un ID válido
+            'vehiculo_id' => 'nullable|exists:vehiculos,id',
+            // Agrega otras validaciones según sea necesario
         ]);
-
-        Orden::create($validatedData);
-
-        return redirect()->route('orden.index')->with('success', 'Felicidades, registraste la orden, capo');
+    
+        // Crear la nueva orden
+        $orden = new Orden();
+        $orden->numero_orden = $request->input('numero_orden');
+        $orden->direccion = $request->input('direccion');  // Asegúrate de incluir este campo
+        $orden->tarea = $request->input('tarea');
+        $orden->tecnico_id = $request->input('tecnico_id');
+        $orden->vehiculo_id = $request->input('vehiculo_id');
+        $orden->fecha = $request->input('fecha');
+        $orden->cliente = $request->input('cliente');
+        $orden->save();
+            
+        return redirect()->route('orden.index')->with('success', 'Orden creada exitosamente.');
     }
-
+        
     public function show(Orden $orden)
     {
         return view('orden.show', compact('orden'));
