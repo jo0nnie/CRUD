@@ -26,13 +26,13 @@
             <option value="reconexion">Reconexión</option>
         </select>
     </div>
-    <div class="form-group">
-        <label for="disponibilidad">Disponibilidad</label>
-        <select name="disponibilidad" id="disponibilidad" class="form-control">
-            <option value="disponible">Disponible</option>
-            <option value="no_disponible">No Disponible</option>
-        </select>
-    </div>
+        <div class="form-group">
+            <label for="disponibilidad">Disponibilidad</label>
+            <select name="disponibilidad" id="disponibilidad" class="form-control">
+                <option value="disponible">Disponible</option>
+                <option value="no_disponible">No Disponible</option>
+            </select>
+        </div>
     <div class="form-group">
         <label for="telefono">Teléfono</label>
         <input type="tel" name="telefono" id="telefono" class="form-control">

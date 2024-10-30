@@ -1,13 +1,12 @@
 <?php
 
-// App/Models/Orden.php
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Orden extends Model
 {
-    protected $table = 'orden'; // Especificar la tabla
+    protected $table = 'orden'; 
 
     protected $fillable = [
         'numero_orden',
@@ -18,7 +17,8 @@ class Orden extends Model
         'tecnico_id',
         'vehiculo_asignado',
         'materiales_necesarios',
-        'estado', // Puede ser: Creado, En proceso, Finalizado, No realizado
+        'estado',
+        'acciones', // Atributo para almacenar múltiples acciones
     ];
 
     public function tecnico()
@@ -30,11 +30,5 @@ class Orden extends Model
     {
         return $this->belongsTo(Vehiculo::class);
     }
-    public function edit(Orden $orden) 
-{ 
-    $tecnicos = Tecnico::all(); 
-    $vehiculos = Vehiculo::all(); 
-    return view('orden.edit', compact('orden', 'tecnicos', 'vehiculos')); 
 }
 
-    }

@@ -61,7 +61,7 @@
             </select>
         </div>
 
-        <div class="form-group">
+<div class="form-group">
             <label for="material_estado">Materiales y Estado</label>
             <div style="display: flex; flex-direction: column; gap: 10px;">
                 @foreach(['router', 'cable', 'antena', 'módem'] as $material)
