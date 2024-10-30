@@ -3,75 +3,66 @@
 namespace App\Http\Controllers;
 
 use App\Models\Vehiculo;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Http\Requests\VehiculoRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
 
 class VehiculoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request): View
+    public function index(Request $request)
     {
-        $vehiculos = Vehiculo::paginate();
-
+        $vehiculos = Vehiculo::paginate(10);
         return view('vehiculo.index', compact('vehiculos'))
             ->with('i', ($request->input('page', 1) - 1) * $vehiculos->perPage());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(): View
+    public function create()
     {
-        $vehiculo = new Vehiculo();
-
-        return view('vehiculo.create', compact('vehiculo'));
+        return view('vehiculo.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(VehiculoRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-        Vehiculo::create($request->validated());
-
+        $request->validate([
+            'descripcion' => 'required|string',  // Cambiado aquí
+            'modelo' => 'required|string',
+            'stock' => 'required|integer',
+            'equipo_trabajo' => 'required|string',
+        ]);
+    
+        // Asegúrate de usar el método only() correctamente
+        Vehiculo::create($request->only('descripcion', 'modelo', 'stock', 'equipo_trabajo'));
+    
         return Redirect::route('vehiculos.index')
-            ->with('success', 'El vehiculo ha sido creado correctamente.');
+            ->with('success', 'El vehículo ha sido creado correctamente.');
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show($id): View
+    
+    public function show($id)
     {
         $vehiculo = Vehiculo::find($id);
-
         return view('vehiculo.show', compact('vehiculo'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id): View
+    public function edit($id)
     {
         $vehiculo = Vehiculo::find($id);
-
         return view('vehiculo.edit', compact('vehiculo'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(VehiculoRequest $request, Vehiculo $vehiculo): RedirectResponse
+    public function update(Request $request, Vehiculo $vehiculo): RedirectResponse
     {
-        $vehiculo->update($request->validated());
+        $request->validate([
+            'descripcion' => 'required|string',  // Cambiado aquí
+            'modelo' => 'required|string',
+            'stock' => 'required|integer',
+            'equipo_trabajo' => 'required|string',
+        ]);
+
+        // Aquí cambiamos 'description' por 'descripcion'
+        $vehiculo->update($request->only('descripcion', 'modelo', 'stock', 'equipo_trabajo'));
 
         return Redirect::route('vehiculos.index')
-            ->with('success', 'El vehiculo ha sido editado correctamente.');
+            ->with('success', 'El vehículo ha sido editado correctamente.');
     }
 
     public function destroy($id): RedirectResponse
@@ -79,6 +70,6 @@ class VehiculoController extends Controller
         Vehiculo::find($id)->delete();
 
         return Redirect::route('vehiculos.index')
-            ->with('success', 'El vehiculo ha sido eliminado correctamente.');
+            ->with('success', 'El vehículo ha sido eliminado correctamente.');
     }
 }

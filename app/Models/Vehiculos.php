@@ -4,11 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Vehiculos extends Model
+class Vehiculo extends Model
 {
-    public function ordenes()
-{
-    return $this->hasMany(Orden::class);
+    protected $fillable = [
+        'descripcion',  // Asegúrate de que esté aquí
+        'modelo',
+        'stock',
+        'equipo_trabajo',
+    ];
 }
 
-}
+

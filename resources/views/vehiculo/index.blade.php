@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Vehiculos
+    Vehículos
 @endsection
 
 @section('content')
@@ -10,19 +10,10 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-
-                            <span id="card_title">
-                                {{ __('Vehiculos') }}
-                            </span>
-
-                             <div class="float-right">
-                                <a href="{{ route('vehiculos.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Añadir datos') }}
-                                </a>
-                              </div>
-                        </div>
+                        <span id="card_title">{{ __('Vehículos') }}</span>
+                        <a href="{{ route('vehiculos.create') }}" class="btn btn-primary btn-sm float-right">{{ __('Añadir Vehículo') }}</a>
                     </div>
+
                     @if ($message = Session::get('success'))
                         <div class="alert alert-success m-4">
                             <p>{{ $message }}</p>
@@ -32,32 +23,29 @@
                     <div class="card-body bg-white">
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
-                                <thead class="thead">
+                                <thead>
                                     <tr>
                                         <th>N°</th>
-                                        
-									<th >Descripción</th>
-									<th >Modelo</th>
-									<th >Stock</th>
-
-                                        <th></th>
+                                        <th>Descripción</th>
+                                        <th>Modelo</th>
+                                        <th>Stock</th>
+                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($vehiculos as $vehiculo)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            
-                                        <td >{{ $vehiculo->description }}</td>
-										<td >{{ $vehiculo->price }}</td>
-										<td >{{ $vehiculo->stock }}</td>
+                                            <td>{{ $vehiculo->descripcion }}</td>
+                                            <td>{{ $vehiculo->modelo }}</td>
+                                            <td>{{ $vehiculo->stock }}</td>
                                             <td>
-                                                <form action="{{ route('vehiculos.destroy', $vehiculo->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('vehiculos.show', $vehiculo->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Mostrar detalles') }}</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('vehiculos.edit', $vehiculo->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
+                                                <a href="{{ route('vehiculos.show', $vehiculo->id) }}" class="btn btn-primary btn-sm">Mostrar</a>
+                                                <a href="{{ route('vehiculos.edit', $vehiculo->id) }}" class="btn btn-success btn-sm">Editar</a>
+                                                <form action="{{ route('vehiculos.destroy', $vehiculo->id) }}" method="POST" style="display:inline-block;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="event.preventDefault(); confirm('¿Está seguro que quiere eliminar el vehículo?') ? this.closest('form').submit() : false;"><i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}</button>
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Está seguro que quiere eliminar el vehículo?')">Eliminar</button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -65,10 +53,12 @@
                                 </tbody>
                             </table>
                         </div>
+                        {!! $vehiculos->links() !!}
                     </div>
                 </div>
-                {!! $vehiculos->withQueryString()->links() !!}
             </div>
         </div>
     </div>
 @endsection
+
+

@@ -6,14 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tecnico extends Model
 {
-    protected $fillable = [
-        'nombre', // Asegúrate de tener los atributos correctos
-        'apellido',
-        'email',
-        // Otros atributos según sea necesario
-    ];
+    protected $fillable = ['nombre', 'especialidad'];
+
     public function ordenes()
-{
-    return $this->hasMany(Orden::class);
+    {
+        return $this->hasMany(Orden::class);
+    }
 }
-}
+

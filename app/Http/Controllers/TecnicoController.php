@@ -25,8 +25,10 @@ class TecnicoController extends Controller
             'nombre' => 'required',
             'apellido' => 'required',
             'email' => 'required|email|unique:tecnicos,email',
+            'telefono' => 'required|unique:tecnicos,telefono',
+            'especialidad' => 'required',
         ]);
-
+        
         Tecnico::create($request->all());
 
         return redirect()->route('tecnicos.index')->with('success', 'Técnico registrado exitosamente.');

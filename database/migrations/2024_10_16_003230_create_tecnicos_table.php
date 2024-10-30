@@ -13,6 +13,7 @@ class CreateTecnicosTable extends Migration
             $table->string('nombre');
             $table->string('apellido');
             $table->string('telefono')->unique(); // Asegúrate de que esta línea esté aquí si deseas agregar el email
+            $table->string('especialidad');
             $table->timestamps();
             // Migration de la tabla ordens
             

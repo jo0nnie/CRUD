@@ -30,4 +30,11 @@ class Orden extends Model
     {
         return $this->belongsTo(Vehiculo::class);
     }
+    public function edit(Orden $orden) 
+{ 
+    $tecnicos = Tecnico::all(); 
+    $vehiculos = Vehiculo::all(); 
+    return view('orden.edit', compact('orden', 'tecnicos', 'vehiculos')); 
+}
+
     }

@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('vehiculos', function (Blueprint $table) {
             $table->id();
-            $table->string('description');
-            $table->integer('price');
-            $table->decimal('stock',8,2);
+            $table->string('descripcion'); // Verifica que esto esté correcto
+            $table->string('modelo');
+            $table->integer('stock');
+            $table->string('equipo_trabajo');
             $table->timestamps();
         });
+                
     }
 
     /**
@@ -28,3 +30,4 @@ return new class extends Migration
         Schema::dropIfExists('vehiculos');
     }
 };
+
