@@ -9,6 +9,6 @@ class Material extends Model
 {
     use HasFactory;
 
-    protected $table = 'materiales'; // Si tu tabla en la BD se llama 'materiales'
+    protected $table = 'materiales'; 
 }
 

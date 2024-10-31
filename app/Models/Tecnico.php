@@ -2,15 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Tecnico extends Model
 {
-    protected $fillable = ['nombre', 'especialidad'];
-
-    public function ordenes()
-    {
-        return $this->hasMany(Orden::class);
-    }
+    use HasFactory;
+    
+    protected $fillable = ['nombre', 'apellido', 'especialidad'];
 }
 

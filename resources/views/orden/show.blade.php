@@ -2,14 +2,21 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Detalles de la Orden</h1>
-<p><strong>Nombre:</strong> {{ $orden->nombre }}</p>
-<p><strong>Estado:</strong> {{ $orden->estado }}</p>
-<p><strong>Fecha de Creación:</strong> {{ $orden->fecha_creacion }}</p>
-<p><strong>Equipo de Trabajo:</strong> {{ $orden->equipo }}</p>
-<p><strong>Tarea a Realizar:</strong> {{ $orden->tarea }}</p>
+<div class="container">
+    <h1>Detalles de la Orden #{{ $orden->numero_orden }}</h1>
 
-<a href="{{ route('orden.edit', $orden->id) }}" class="btn btn-primary">Editar</a>
-<a href="{{ route('orden.index') }}" class="btn btn-secondary">Volver a la lista</a>
+    <ul class="list-group">
+        <li class="list-group-item"><strong>Dirección:</strong> {{ $orden->direccion }}</li>
+        <li class="list-group-item"><strong>Tarea:</strong> {{ $orden->tarea }}</li>
+        <li class="list-group-item"><strong>Cliente:</strong> {{ $orden->cliente }}</li>
+        <li class="list-group-item"><strong>Fecha:</strong> {{ $orden->fecha }}</li>
+        <li class="list-group-item"><strong>Técnico:</strong> {{ $orden->tecnico->nombre }}</li>
+        <li class="list-group-item"><strong>Vehículo:</strong> {{ $orden->vehiculo->modelo ?? 'N/A' }}</li>
+        <li class="list-group-item"><strong>Acciones:</strong> {{ $orden->acciones ? json_decode($orden->acciones) : 'Ninguna' }}</li>
+    </ul>
 
+    <a href="{{ route('orden.edit', $orden->id) }}" class="btn btn-primary mt-3">Editar Orden</a>
+    <a href="{{ route('orden.index') }}" class="btn btn-secondary mt-3">Volver a la lista de Órdenes</a>
+</div>
 @endsection
+

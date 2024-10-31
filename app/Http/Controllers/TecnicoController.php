@@ -9,11 +9,10 @@ class TecnicoController extends Controller
 {
     public function index()
     {
-        $tecnicos = Tecnico::paginate(10); // Usa paginate en lugar de get()
+        $tecnicos = Tecnico::paginate(10); 
         return view('tecnicos.index', compact('tecnicos'));
     }
     
-
     public function create()
     {
         return view('tecnicos.create');
@@ -21,17 +20,27 @@ class TecnicoController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required',
-            'apellido' => 'required',
-            'email' => 'required|email|unique:tecnicos,email',
+        $validatedData = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'especialidad' => 'required|string',
+            'grupo_trabajo' => 'required|string',
+            'disponibilidad' => 'required|string',
+            'telefono' => 'required|string',
         ]);
-
-        Tecnico::create($request->all());
-
-        return redirect()->route('tecnicos.index')->with('success', 'Técnico registrado exitosamente.');
+    
+        $tecnico = new Tecnico();
+        $tecnico->nombre = $request->nombre;
+        $tecnico->apellido = $request->apellido;
+        $tecnico->especialidad = $request->especialidad;
+        $tecnico->grupo_trabajo = $request->grupo_trabajo;
+        $tecnico->disponibilidad = $request->disponibilidad;
+        $tecnico->telefono = $request->telefono;
+        $tecnico->save(); 
+    
+        return redirect()->route('tecnicos.index')->with('success', 'Técnico creado exitosamente.');
     }
-
+        
     public function show(Tecnico $tecnico)
     {
         return view('tecnicos.show', compact('tecnico'));
@@ -44,12 +53,15 @@ class TecnicoController extends Controller
 
     public function update(Request $request, Tecnico $tecnico)
     {
-        $request->validate([
-            'nombre' => 'required',
-            'apellido' => 'required',
-            'email' => 'required|email|unique:tecnicos,email,' . $tecnico->id,
+        $validatedData = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'especialidad' => 'required|string',
+            'grupo_trabajo' => 'required|string',
+            'disponibilidad' => 'required|string',
+            'telefono' => 'required|string',
         ]);
-
+        
         $tecnico->update($request->all());
 
         return redirect()->route('tecnicos.index')->with('success', 'Técnico actualizado exitosamente.');

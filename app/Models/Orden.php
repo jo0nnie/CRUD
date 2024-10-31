@@ -18,7 +18,7 @@ class Orden extends Model
         'vehiculo_asignado',
         'materiales_necesarios',
         'estado',
-        'acciones', // Atributo para almacenar múltiples acciones
+        'acciones', 
     ];
 
     public function tecnico()

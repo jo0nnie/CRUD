@@ -7,7 +7,6 @@
         @csrf
         @method('PUT')
         
-        <!-- Sección de detalles de la orden -->
         <h4>Detalles de la Orden</h4>
         <div class="form-group">
             <label for="estado">Estado de Orden</label>
@@ -15,7 +14,6 @@
                 <option value="creado" {{ $orden->estado == 'creado' ? 'selected' : '' }}>Creado</option>
                 <option value="en_proceso" {{ $orden->estado == 'en_proceso' ? 'selected' : '' }}>En Proceso</option>
                 <option value="completado" {{ $orden->estado == 'completado' ? 'selected' : '' }}>Completado</option>
-                <!-- Agrega más opciones si es necesario -->
             </select>
         </div>
 
@@ -25,8 +23,13 @@
         </div>
 
         <div class="form-group">
-            <label for="tarea">Tarea a realizar</label>
-            <input type="text" name="tarea" id="tarea" class="form-control" value="{{ $orden->tarea }}" required>
+            <label for="tarea">Tarea</label>
+            <select name="tarea" id="tarea" class="form-control">
+                <option value="conexion">Conexión</option>
+                <option value="desconexion">Desconexión</option>
+                <option value="instalacion_domiciliaria">Instalación Domiciliaria</option>
+                <option value="reconexion">Reconexión</option>
+            </select>
         </div>
 
         <div class="form-group">
@@ -38,7 +41,6 @@
             </select>
         </div>
 
-        <!-- Sección de datos del cliente -->
         <h4>Datos del Cliente</h4>
         <div class="form-group">
             <label for="cliente">Nombre del Cliente</label>

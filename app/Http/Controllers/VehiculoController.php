@@ -4,72 +4,71 @@ namespace App\Http\Controllers;
 
 use App\Models\Vehiculo;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Redirect;
 
 class VehiculoController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $vehiculos = Vehiculo::paginate(10);
-        return view('vehiculo.index', compact('vehiculos'))
-            ->with('i', ($request->input('page', 1) - 1) * $vehiculos->perPage());
+        $vehiculos = Vehiculo::paginate(10); 
+        return view('vehiculos.index', compact('vehiculos'));
     }
+    
 
     public function create()
     {
-        return view('vehiculo.create');
+        return view('vehiculos.create');
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $request->validate([
-            'descripcion' => 'required|string',  // Cambiado aquí
+            'descripcion' => 'required|string',
+            'estado' => 'required|string',
             'modelo' => 'required|string',
             'stock' => 'required|integer',
+            'disponibilidad' => 'required|string',
             'equipo_trabajo' => 'required|string',
         ]);
     
-        // Asegúrate de usar el método only() correctamente
-        Vehiculo::create($request->only('descripcion', 'modelo', 'stock', 'equipo_trabajo'));
+        Vehiculo::create($request->all());
     
-        return Redirect::route('vehiculos.index')
-            ->with('success', 'El vehículo ha sido creado correctamente.');
+        return redirect()->route('vehiculos.index')
+                         ->with('success', 'Vehículo creado con éxito.');
     }
     
-    public function show($id)
-    {
-        $vehiculo = Vehiculo::find($id);
-        return view('vehiculo.show', compact('vehiculo'));
-    }
-
     public function edit($id)
     {
-        $vehiculo = Vehiculo::find($id);
-        return view('vehiculo.edit', compact('vehiculo'));
+        $vehiculo = Vehiculo::findOrFail($id);
+        return view('vehiculos.edit', compact('vehiculo'));
     }
 
-    public function update(Request $request, Vehiculo $vehiculo): RedirectResponse
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'descripcion' => 'required|string',  // Cambiado aquí
+        $validatedData = $request->validate([
+            'estado' => 'required|string|in:nuevo,Viejo,roto,arreglado',
             'modelo' => 'required|string',
-            'stock' => 'required|integer',
-            'equipo_trabajo' => 'required|string',
+            'stock' => 'required|integer|min:1',
+            'disponibilidad' => 'required|string|in:disponible,no_disponible',
+            'equipo_trabajo' => 'required|string|in:conexion,desconexion,instalacion_domiciliaria,reconexion',
         ]);
 
-        // Aquí cambiamos 'description' por 'descripcion'
-        $vehiculo->update($request->only('descripcion', 'modelo', 'stock', 'equipo_trabajo'));
-
-        return Redirect::route('vehiculos.index')
-            ->with('success', 'El vehículo ha sido editado correctamente.');
+        $vehiculo = Vehiculo::findOrFail($id);
+        $vehiculo->update($validatedData);
+        return redirect()->route('vehiculos.index')->with('success', 'Vehículo actualizado exitosamente.');
     }
 
-    public function destroy($id): RedirectResponse
-    {
-        Vehiculo::find($id)->delete();
+    public function show($id)
+{
+    $vehiculo = Vehiculo::findOrFail($id); 
+    return view('vehiculo.show', compact('vehiculo')); 
+}
 
-        return Redirect::route('vehiculos.index')
-            ->with('success', 'El vehículo ha sido eliminado correctamente.');
+
+    public function destroy($id)
+    {
+        $vehiculo = Vehiculo::findOrFail($id);
+        $vehiculo->delete();
+        return redirect()->route('vehiculos.index')->with('success', 'Vehículo eliminado exitosamente.');
     }
 }
+

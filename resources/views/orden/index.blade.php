@@ -18,6 +18,12 @@
                                 <a href="{{ route('orden.create') }}" class="btn btn-primary btn-sm float-right" data-placement="left">
                                     {{ __('Crear nueva orden') }}
                                 </a>
+                                <a href="{{ route('tecnicos.index') }}" class="btn btn-secondary btn-sm float-right" style="margin-right: 5px;">
+                                    {{ __('Ver Técnicos') }}
+                                </a>
+                                <a href="{{ route('vehiculos.index') }}" class="btn btn-secondary btn-sm float-right" style="margin-right: 5px;">
+                                    {{ __('Ver Vehículos') }}
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -49,8 +55,8 @@
                                         <td>{{ $item->tarea }}</td>
                                         <td>{{ $item->fecha }}</td>
                                         <td>{{ $item->estado ?? 'Sin estado' }}</td>
-                                        <td>{{ $item->tecnico->nombre ?? 'No asignado' }}</td> <!-- Mostrar nombre del técnico o "No asignado" -->
-                                        <td>{{ $item->vehiculo->modelo ?? 'No asignado' }}</td> <!-- Mostrar modelo del vehículo o "No asignado" -->
+                                        <td>{{ $item->tecnico->nombre ?? 'No asignado' }}</td>
+                                        <td>{{ $item->vehiculo->modelo ?? 'No asignado' }}</td>
                                         <td>
                                             <form action="{{ route('orden.destroy', $item->id) }}" method="POST">
                                                 <a class="btn btn-sm btn-primary" href="{{ route('orden.show', $item->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Mostrar detalles') }}</a>
@@ -69,7 +75,6 @@
                                 </tbody>
                             </table>
 
-                            <!-- Mostrar enlaces de paginación -->
                             <div class="d-flex justify-content-center">
                                 {{ $ordenes->links() }}
                             </div>
@@ -80,3 +85,4 @@
         </div>
     </div>
 @endsection
+

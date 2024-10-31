@@ -11,7 +11,6 @@
     <form action="{{ route('orden.store') }}" method="POST">
         @csrf
 
-        <!-- Información de la Orden -->
         <div class="form-group">
             <label for="numero_orden">Número de Orden</label>
             <input type="text" name="numero_orden" id="numero_orden" class="form-control" required>
@@ -42,7 +41,6 @@
             <input type="date" name="fecha" id="fecha" class="form-control" required>
         </div>
 
-        <!-- Selección de Técnico y Vehículo -->
         <div class="form-group">
             <label for="tecnico_id">Técnico</label>
             <select name="tecnico_id" id="tecnico_id" class="form-control" required>
@@ -61,7 +59,7 @@
             </select>
         </div>
 
-<div class="form-group">
+        <div class="form-group">
             <label for="material_estado">Materiales y Estado</label>
             <div style="display: flex; flex-direction: column; gap: 10px;">
                 @foreach(['router', 'cable', 'antena', 'módem'] as $material)
@@ -80,7 +78,6 @@
                 @endforeach
             </div>
         </div>
-        </div>
 
         <button type="submit" class="btn btn-primary">Crear Orden</button>
     </form>
@@ -93,3 +90,4 @@
     }
 </script>
 @endsection
+

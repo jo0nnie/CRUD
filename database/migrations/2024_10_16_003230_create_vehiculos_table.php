@@ -13,21 +13,23 @@ return new class extends Migration
     {
         Schema::create('vehiculos', function (Blueprint $table) {
             $table->id();
-            $table->string('descripcion'); // Verifica que esto esté correcto
+            $table->string('descripcion'); 
             $table->string('modelo');
             $table->integer('stock');
             $table->string('equipo_trabajo');
+            $table->string('disponibilidad');
+            $table->string('estado');
             $table->timestamps();
         });
                 
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('vehiculos');
+        Schema::table('vehiculos', function (Blueprint $table) {
+            $table->dropColumn('disponibilidad');
+            $table->dropColumn('estado');
+        });
     }
 };
 

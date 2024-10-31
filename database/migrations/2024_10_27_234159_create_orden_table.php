@@ -17,6 +17,7 @@ class CreateOrdenTable extends Migration
             $table->unsignedBigInteger('tecnico_id')->nullable();
             $table->unsignedBigInteger('vehiculo_id')->nullable();
             $table->string('estado')->default('creado'); // Por defecto, si no es obligatorio
+            $table->string('acciones')->nullable();
             $table->timestamps();
     
             // Llaves foráneas (opcional)

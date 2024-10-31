@@ -1,9 +1,8 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Técnicos
+    Órdenes
 @endsection
-
 @section('content')
     <div class="container-fluid">
         <div class="row">
@@ -15,58 +14,59 @@
                                 {{ __('Técnicos') }}
                             </span>
                             <div class="float-right">
-                                <a href="{{ route('tecnicos.create') }}" class="btn btn-primary btn-sm float-right" data-placement="left">
-                                    {{ __('Crear nuevo técnico') }}
+                            <a href="{{ route('tecnicos.create') }}" class="btn btn-success btn-sm float-center" style="margin-right: 5px;">
+                                {{ __('Crear nuevo técnico') }}
+                                </a>
+                                <a href="{{ route('orden.index') }}" class="btn btn-secondary btn-sm float-right" style="margin-right: 5px;">
+                                    {{ __('Ver Ordenes') }}
+                                </a>
+                                <a href="{{ route('vehiculos.index') }}" class="btn btn-secondary btn-sm float-right" style="margin-right: 5px;">
+                                    {{ __('Ver Vehículos') }}
                                 </a>
                             </div>
                         </div>
                     </div>
-
-                    @if ($message = Session::get('success'))
-                        <div class="alert alert-success m-4">
-                            <p>{{ $message }}</p>
-                        </div>
-                    @endif
-
-                    <div class="form-group">
-                        <label>Técnicos</label>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>N°</th>
-                                    <th>Nombre</th>
-                                    <th>Especialidad</th>
-                                    <th>Grupo de Trabajo</th>
-                                    <th>Disponibilidad</th>
-                                    <th>Teléfono</th>
-                                    <th>Acciones</th>
-                                </tr>                                
-                            </thead>
-                            <tbody>
-                                @php $i = 0; @endphp <!-- Inicializa $i aquí -->
-                                @foreach ($tecnicos as $tecnico)
+                    <div class="card-body bg-white">
+                        <div class="table-responsive">    <h1>Técnicos</h1>
+                        <table class="table table-striped table-hover">
+                                <thead class="thead">
                                     <tr>
-                                        <td>{{ ++$i }}</td> <!-- Incrementa $i -->
+                                        <th>N°</th>
+                                        <th>Nombre</th>
+                                        <th>Apellido</th> 
+                                        <th>Especialidad</th>
+                                        <th>Grupo de Trabajo</th>
+                                        <th>Disponibilidad</th>
+                                        <th>Teléfono</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($tecnicos as $tecnico)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td> <!-- Muestra el número de fila -->
                                         <td>{{ $tecnico->nombre }}</td>
+                                        <td>{{ $tecnico->apellido }}</td> <!-- Mostrar el apellido -->
                                         <td>{{ $tecnico->especialidad }}</td>
+                                        <td>{{ $tecnico->grupo_trabajo }}</td>
+                                        <td>{{ $tecnico->disponibilidad }}</td>
                                         <td>{{ $tecnico->telefono }}</td>
                                         <td>
-                                            <form action="{{ route('tecnicos.destroy', $tecnico->id) }}" method="POST">
-                                                <a class="btn btn-sm btn-primary" href="{{ route('tecnicos.show', $tecnico->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Mostrar detalles') }}</a>
-                                                <a class="btn btn-sm btn-success" href="{{ route('tecnicos.edit', $tecnico->id) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
+                                            <a href="{{ route('tecnicos.show', $tecnico->id) }}" class="btn btn-info btn-sm">Detalles</a>
+                                            <a href="{{ route('tecnicos.edit', $tecnico->id) }}" class="btn btn-warning btn-sm">Editar</a>
+                                            <form action="{{ route('tecnicos.destroy', $tecnico->id) }}" method="POST" style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="event.preventDefault(); confirm('¿Está seguro que quiere eliminar al técnico?') ? this.closest('form').submit() : false;"><i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}</button>
+                                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                                             </form>
                                         </td>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-@endsection
+                                    @endforeach
+                                </tbody>
+                            </table>
+
+                            {{ $tecnicos->links() }} <!-- Paginación -->
+                        </div>
+                        @endsection
+
+
 
